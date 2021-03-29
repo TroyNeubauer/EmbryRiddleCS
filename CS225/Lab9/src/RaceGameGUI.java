@@ -160,7 +160,7 @@ public class RaceGameGUI extends Application {
 	@Override
 	public void start(Stage stage) {
 
- 		
+ 		stage.setScene(new Scene(pane, 250, 300));
 		stage.show();
 	}
 
