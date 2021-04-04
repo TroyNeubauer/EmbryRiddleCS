@@ -1,0 +1,5 @@
+Valid numbers: 68
+Invalid numbers: 8
+Werewolves win by: 8 votes
+Blank lines: 1
+Red, Blue, and Yellow color total: 0
