@@ -27,12 +27,10 @@ public class LinkedList<T> implements List<T> {
         this.len = 0;
     }
 
-    void indexCheck(int loc) {
-        if (loc >= this.len || loc < 0) {
-            throw new ArrayIndexOutOfBoundsException(loc);
-        }
-    }
-
+    /**
+     * Returns the element at index loc
+     * Throws a NoSuchElementException if loc is out of range
+     */
     @Override
     public T getAt(int loc) {
         this.indexCheck(loc);
@@ -43,6 +41,10 @@ public class LinkedList<T> implements List<T> {
         return node.item;
     }
 
+    /**
+     * Deletes the item at index loc
+     * Throws a NoSuchElementException if loc is out of range
+     */
     @Override
     public T deleteAt(int loc) {
         this.indexCheck(loc);
@@ -88,6 +90,9 @@ public class LinkedList<T> implements List<T> {
         return garbage.item;
     }
 
+    /**
+     * Adds item to the head of the list
+     */
     @Override
     public void addToHead(T item) {
         Node<T> newHead = new Node<T>(item);
@@ -102,6 +107,9 @@ public class LinkedList<T> implements List<T> {
         this.len++;
     }
 
+    /**
+     * Adds item to the tail of the list
+     */
     @Override
     public void addToTail(T item) {
         Node<T> newTail = new Node<T>(item);
@@ -116,6 +124,9 @@ public class LinkedList<T> implements List<T> {
         this.len++;
     }
 
+    /**
+     * Adds item at loc to the list
+     */
     @Override
     public void addAt(int loc, T item) {
         if (loc <= 0) {
@@ -144,6 +155,9 @@ public class LinkedList<T> implements List<T> {
         }
     }
 
+    /**
+     * Prints this list in forward order
+     */
     @Override
     public void printFwd() {
         Node<T> node = this.head;
@@ -157,14 +171,9 @@ public class LinkedList<T> implements List<T> {
         System.out.println("");
     }
 
-    void printSingleNode(Node<T> node) {
-        if (node == null) {
-            System.out.println("null");
-        } else {
-            System.out.println(node.item);
-        }
-    }
-
+    /**
+     * Prints this list in reverse order
+     */
     @Override
     public void printRev() {
         Node<T> node = this.tail;
@@ -177,6 +186,9 @@ public class LinkedList<T> implements List<T> {
         }
     }
 
+    /**
+     * Returns true if this VecDeque is empty, false otherwise
+     */
     @Override
     public boolean isEmpty() {
         return len == 0;
@@ -206,8 +218,25 @@ public class LinkedList<T> implements List<T> {
         return result;
     }
 
+    /**
+     * Returns the number of elements in the VecDeque
+     */
     @Override
     public int size() {
         return this.len;
+    }
+
+    void printSingleNode(Node<T> node) {
+        if (node == null) {
+            System.out.println("null");
+        } else {
+            System.out.println(node.item);
+        }
+    }
+
+    void indexCheck(int loc) {
+        if (loc >= this.len || loc < 0) {
+            throw new ArrayIndexOutOfBoundsException(loc);
+        }
     }
 }

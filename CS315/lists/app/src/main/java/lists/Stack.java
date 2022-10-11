@@ -18,10 +18,16 @@ public class Stack<T> {
 		return this.inner.deleteBack();
 	}
 
+	/**
+	 * Returns true if this VecDeque is empty, false otherwise
+	 */
 	public boolean isEmpty() {
 		return this.inner.isEmpty();
 	}
 
+	/**
+	 * Returns the number of elements in the VecDeque
+	 */
 	public int size() {
 		return this.inner.size();
 	}
@@ -31,7 +37,10 @@ public class Stack<T> {
 		return this.inner.toString();
 	}
 
-    public T[] toArray() {
+	/**
+	 * Writes the elements inside this VecDeque an array using shallow cloning
+	 */
+	public T[] toArray() {
 		return this.inner.toArray();
 	}
 }

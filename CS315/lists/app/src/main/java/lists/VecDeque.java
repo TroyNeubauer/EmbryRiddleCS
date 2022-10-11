@@ -2,6 +2,7 @@ package lists;
 
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  *
@@ -9,7 +10,7 @@ import java.util.Iterator;
 //
 public class VecDeque<T> implements Iterable<T> {
     /**
-     * The ring buffer of data
+     * The ring buffer of data null for unwritten elements
      */
     private T[] buf;
 
@@ -19,7 +20,7 @@ public class VecDeque<T> implements Iterable<T> {
     int first;
 
     /**
-     * One index past the last element
+     * One index past the last element - always modulus buf.length
      */
     int last;
 
@@ -32,10 +33,16 @@ public class VecDeque<T> implements Iterable<T> {
      */
     boolean wrapped;
 
+    /**
+     * Creates a new empty VecDeque
+     */
     public VecDeque() {
         this(16);
     }
 
+    /**
+     * Creates a new empty VecDeque with the capacity of cap.
+     */
     public VecDeque(int cap) {
         if (cap == 0) {
             throw new IllegalArgumentException();
@@ -45,12 +52,6 @@ public class VecDeque<T> implements Iterable<T> {
 
     VecDeque(T[] buf) {
         this.buf = buf;
-    }
-
-    void indexAccessCheck(int loc) {
-        if (loc < 0 || loc >= this.size()) {
-            throw new ArrayIndexOutOfBoundsException(loc);
-        }
     }
 
     /**
@@ -67,12 +68,23 @@ public class VecDeque<T> implements Iterable<T> {
         }
     }
 
+    /**
+     * Returns the element at index loc
+     * Throws a NoSuchElementException if index is out of range
+     */
     public T getAt(int loc) {
         indexAccessCheck(loc);
         return this.buf[this.wrappedIndex(loc)];
     }
 
+    /**
+     * Deletes the first element from the vec deq.
+     * Throws a NoSuchElementException if the VecDeque is empty
+     */
     public T deleteFront() {
+        if (this.isEmpty()) {
+            throw new NoSuchElementException();
+        }
         T result = this.buf[this.first];
         this.buf[this.first] = null;
         this.first++;
@@ -83,7 +95,14 @@ public class VecDeque<T> implements Iterable<T> {
         return result;
     }
 
+    /**
+     * Deletes the back element from the vec deq.
+     * Throws a NoSuchElementException if the VecDeque is empty
+     */
     public T deleteBack() {
+        if (this.isEmpty()) {
+            throw new NoSuchElementException();
+        }
         int index;
         if (this.last == 0) {
             // Deleting the last element
@@ -100,6 +119,9 @@ public class VecDeque<T> implements Iterable<T> {
         return result;
     }
 
+    /**
+     * Adds item to the head of the list
+     */
     public void addToHead(T item) {
         doubleCapIfNeeded();
         int index;
@@ -115,6 +137,9 @@ public class VecDeque<T> implements Iterable<T> {
         this.first = index;
     }
 
+    /**
+     * Adds item to the back of the list
+     */
     public void addToTail(T item) {
         doubleCapIfNeeded();
 
@@ -128,17 +153,17 @@ public class VecDeque<T> implements Iterable<T> {
         this.last = index;
     }
 
-    void doubleCapIfNeeded() {
-        if (this.isFull()) {
-            this.resize(this.buf.length * 2);
-        }
-    }
-
+    /**
+     * Prints this list in forward order
+     */
     public void printFwd() {
         T[] arr = this.toArray();
         System.out.println(Arrays.toString(arr));
     }
 
+    /**
+     * Prints this list in reverse order
+     */
     public void printRev() {
         T[] arr = this.toArray();
         // swap array then print (why isnt reversing in array in the standard library!?)
@@ -151,20 +176,34 @@ public class VecDeque<T> implements Iterable<T> {
         System.out.println(Arrays.toString(arr));
     }
 
+    /**
+     * Returns true if this VecDeque is empty, false otherwise
+     */
     public boolean isEmpty() {
         return this.first == this.last && !wrapped;
     }
 
+    /**
+     * Returns true if this VecDeque is full and will reallocate on the next add
+     * operation,
+     * false otherwise
+     */
     public boolean isFull() {
         return this.first == this.last && wrapped;
     }
 
+    /**
+     * Writes the elements inside this VecDeque an array using shallow cloning
+     */
     public T[] toArray() {
         T[] result = (T[]) new Object[this.size()];
         this.writeToArray(result);
         return result;
     }
 
+    /**
+     * Writes the data in this VecDeque to dst without deep cloning the elements
+     */
     public void writeToArray(T[] dst) {
         int size = this.size();
         if (dst.length < size) {
@@ -179,6 +218,9 @@ public class VecDeque<T> implements Iterable<T> {
         }
     }
 
+    /**
+     * Performs a shallow clone of this VecDeque
+     */
     public VecDeque<T> cloneList() {
         int size = this.size();
         T[] result = (T[]) new Object[size];
@@ -186,11 +228,20 @@ public class VecDeque<T> implements Iterable<T> {
         return new VecDeque<T>(result);
     }
 
+    /**
+     * Returns the number of elements in the VecDeque
+     */
     public int size() {
         if (this.wrapped) {
             return this.wrappedFirstLen() + this.wrappedSecondLen();
         } else {
             return this.last - this.first;
+        }
+    }
+
+    void doubleCapIfNeeded() {
+        if (this.isFull()) {
+            this.resize(this.buf.length * 2);
         }
     }
 
@@ -210,6 +261,12 @@ public class VecDeque<T> implements Iterable<T> {
      */
     int wrappedSecondLen() {
         return this.last;
+    }
+
+    void indexAccessCheck(int loc) {
+        if (loc < 0 || loc >= this.size()) {
+            throw new ArrayIndexOutOfBoundsException(loc);
+        }
     }
 
     public void resize(int newcap) {
