@@ -1,70 +1,37 @@
 package lists;
 
-public class Stack<T> implements List<T> {
+public class Stack<T> {
+	VecDeque<T> inner;
 
-	@Override
-	public T getAt(int loc) {
-		// TODO Auto-generated method stub
-		return null;
+	/**
+	 * Create an empty stack
+	 */
+	Stack() {
+		this.inner = new VecDeque<T>();
 	}
 
-	@Override
-	public T deleteAt(int loc) {
-		// TODO Auto-generated method stub
-		return null;
+	public void push(T item) {
+		this.inner.addToTail(item);
 	}
 
-	@Override
-	public void addToHead(Object item) {
-		// TODO Auto-generated method stub
-		
+	public T pop() {
+		return this.inner.deleteBack();
 	}
 
-	@Override
-	public void addToTail(T item) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void addAt(int loc, T item) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void printFwd() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void printRev() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
+		return this.inner.isEmpty();
 	}
 
-	@Override
-	public T[] toArray() {
-		// TODO Auto-generated method stub
-		return (T[]) new Object[0];
-	}
-
-	@Override
-	public List cloneList() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.inner.size();
+	}
+
+	@Override
+	public String toString() {
+		return this.inner.toString();
+	}
+
+    public T[] toArray() {
+		return this.inner.toArray();
 	}
 }

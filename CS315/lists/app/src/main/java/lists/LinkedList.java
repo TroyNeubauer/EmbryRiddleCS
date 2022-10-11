@@ -29,7 +29,7 @@ public class LinkedList<T> implements List<T> {
 
     void indexCheck(int loc) {
         if (loc >= this.len || loc < 0) {
-            throw new RuntimeException("index out of range! " + loc + " len: " + this.len);
+            throw new ArrayIndexOutOfBoundsException(loc);
         }
     }
 
@@ -67,7 +67,7 @@ public class LinkedList<T> implements List<T> {
             garbage = oldTail;
             this.tail = this.tail.prev;
             this.tail.next = null;
-            
+
         } else {
             // normal case, delete node in the middle
             Node<T> node = this.head;
@@ -85,7 +85,7 @@ public class LinkedList<T> implements List<T> {
         // help garbage collector by nulling out references
         garbage.next = null;
         garbage.prev = null;
-        return null;
+        return garbage.item;
     }
 
     @Override
