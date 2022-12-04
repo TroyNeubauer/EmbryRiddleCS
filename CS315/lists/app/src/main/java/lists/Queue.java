@@ -3,14 +3,14 @@ package lists;
 public class Queue<T> {
     VecDeque<T> inner;
 
-    Queue() {
+    public Queue() {
         this.inner = new VecDeque<T>();
     }
 
     /**
      * Adds an item to the back of the queue
      */
-    void enqueue(T item) {
+    public void enqueue(T item) {
         this.inner.addToTail(item);
     }
 
@@ -18,7 +18,7 @@ public class Queue<T> {
      * Removes the item from the front of the queue
      * Throws a NoSuchElementException if index is out of range
      */
-    T dequeue() {
+    public T dequeue() {
         return this.inner.deleteFront();
     }
 

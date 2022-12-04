@@ -20,9 +20,15 @@ repositories {
 dependencies {
     // Use JUnit test framework.
     implementation 'junit:junit:4.13.2'
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
 }
 
 application {
     // Define the main class for the application.
-    mainClass = 'lists.App'
+    mainClass = 'sortingcmp.App'
+}
+
+jmh {
+    resultFormat = 'json'
+    jvmArgsAppend = ["-Xss8m"]
 }

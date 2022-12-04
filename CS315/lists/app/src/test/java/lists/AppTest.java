@@ -13,8 +13,9 @@ import java.util.Arrays;
 public class AppTest {
 
     /**
-     * Creates a List and a Java Array list, performs 10 million random operations on them,
-     * and ensures that 
+     * Creates a List and a Java Array list, performs 10 million random operations
+     * on them,
+     * and ensures that
      */
     @Test
     public void listRussianRoulette() {
@@ -69,6 +70,69 @@ public class AppTest {
                     int toClear = list.size();
                     for (int k = 0; k < toClear; k++) {
                         list.deleteAt(0);
+                    }
+                }
+            }
+        }
+    }
+
+    @Test
+    public void cheeseRussianRoulette() {
+        for (int i = 0; i < 10000; i++) {
+            ArrayList<Integer> arraylist = new ArrayList<Integer>();
+            ExhibitionCheeseList cheese = new ExhibitionCheeseList();
+            for (int j = 0; i < 1000; i++) {
+                int val = (int) (Math.random() * 859764);
+                int index = (int) (Math.random() * arraylist.size());
+                switch ((int) (Math.random() * 5)) {
+                    case 0:
+                        System.out.println("add to tail " + val);
+                        arraylist.add(val);
+                        cheese.addToTail(val);
+                        break;
+                    case 1:
+                        System.out.println("add to head " + val);
+                        arraylist.add(0, val);
+                        cheese.addToHead(val);
+                        break;
+                    case 2:
+                        if (!arraylist.isEmpty()) {
+                            // System.out.println("get at " + index + ":" + val);
+                            arraylist.get(index);
+                            cheese.getAt(index);
+                        }
+                        break;
+                    case 3:
+                        if (!arraylist.isEmpty()) {
+                            System.out.println("delete at head");
+                            Integer deleted = arraylist.remove(0);
+                            int deleted2 = cheese.deleteFront();
+                            assertEquals(deleted.intValue(), deleted2);
+                        }
+                        break;
+                    case 4:
+                        if (!arraylist.isEmpty()) {
+                            System.out.println("delete at tail");
+                            Integer deleted = arraylist.remove(arraylist.size() - 1);
+                            int deleted2 = cheese.deleteBack();
+                            assertEquals(deleted.intValue(), deleted2);
+                        }
+                        break;
+                    default:
+                        throw new RuntimeException();
+                }
+                cheese.printInfo();
+                assertEquals(cheese.size(), arraylist.size());
+                Object[] theirs = arraylist.toArray();
+                String oursString = cheese.toString();
+                assertEquals(Arrays.toString(theirs), oursString);
+                System.out.println();
+
+                if (Math.random() < 0.01) {
+                    arraylist.clear();
+                    int toClear = cheese.size();
+                    for (int k = 0; k < toClear; k++) {
+                        cheese.deleteFront();
                     }
                 }
             }

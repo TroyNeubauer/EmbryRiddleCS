@@ -6,8 +6,12 @@ public class Stack<T> {
 	/**
 	 * Create an empty stack
 	 */
-	Stack() {
+	public Stack() {
 		this.inner = new VecDeque<T>();
+	}
+
+	public Stack(int cap) {
+		this.inner = new VecDeque<T>(cap);
 	}
 
 	public void push(T item) {
